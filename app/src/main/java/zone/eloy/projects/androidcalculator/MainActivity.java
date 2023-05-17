@@ -469,3 +469,31 @@ private boolean addNumber(String number)
             }
         }
     }
+private int defineLastCharacter(String lastCharacter)
+    {
+        try
+        {
+            Integer.parseInt(lastCharacter);
+            return IS_NUMBER;
+        } catch (NumberFormatException e)
+        {
+        }
+
+        if ((lastCharacter.equals("+") || lastCharacter.equals("-") || lastCharacter.equals("x") || lastCharacter.equals("\u00F7") || lastCharacter.equals("%")))
+            return IS_OPERAND;
+
+        if (lastCharacter.equals("("))
+            return IS_OPEN_PARENTHESIS;
+
+        if (lastCharacter.equals(")"))
+            return IS_CLOSE_PARENTHESIS;
+
+        if (lastCharacter.equals("."))
+            return IS_DOT;
+
+        return -1;
+    }
+
+
+
+}
