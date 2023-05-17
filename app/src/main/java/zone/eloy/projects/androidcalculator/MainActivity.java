@@ -345,3 +345,37 @@ private boolean addParenthesis()
         }
         return done;
     }
+
+private boolean addNumber(String number)
+    {
+        boolean done = false;
+        int operationLength = textViewInputNumbers.getText().length();
+        if (operationLength > 0)
+        {
+            String lastCharacter = textViewInputNumbers.getText().charAt(operationLength - 1) + "";
+            int lastCharacterState = defineLastCharacter(lastCharacter);
+
+            if (operationLength == 1 && lastCharacterState == IS_NUMBER && lastCharacter.equals("0"))
+            {
+                textViewInputNumbers.setText(number);
+                done = true;
+            } else if (lastCharacterState == IS_OPEN_PARENTHESIS)
+            {
+                textViewInputNumbers.setText(textViewInputNumbers.getText() + number);
+                done = true;
+            } else if (lastCharacterState == IS_CLOSE_PARENTHESIS || lastCharacter.equals("%"))
+            {
+                textViewInputNumbers.setText(textViewInputNumbers.getText() + "x" + number);
+                done = true;
+            } else if (lastCharacterState == IS_NUMBER || lastCharacterState == IS_OPERAND || lastCharacterState == IS_DOT)
+            {
+                textViewInputNumbers.setText(textViewInputNumbers.getText() + number);
+                done = true;
+            }
+        } else
+        {
+            textViewInputNumbers.setText(textViewInputNumbers.getText() + number);
+            done = true;
+        }
+        return done;
+    }
