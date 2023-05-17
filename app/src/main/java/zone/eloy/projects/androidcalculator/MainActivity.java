@@ -252,3 +252,96 @@ private void setOnClickListeners()
         }
         return done;
     }
+private boolean addParenthesis()
+    {
+        boolean done = false;
+        int operationLength = textViewInputNumbers.getText().length();
+
+        if (operationLength == 0)
+        {
+            textViewInputNumbers.setText(textViewInputNumbers.getText() + "(");
+            dotUsed = false;
+            openParenthesis++;
+            done = true;
+        } else if (openParenthesis > 0 && operationLength > 0)
+        {
+            String lastInput = textViewInputNumbers.getText().charAt(operationLength - 1) + "";
+            switch (defineLastCharacter(lastInput))
+            {
+                case IS_NUMBER:
+                    textViewInputNumbers.setText(textViewInputNumbers.getText() + ")");
+                    done = true;
+                    openParenthesis--;
+                    dotUsed = false;
+                    break;
+                case IS_OPERAND:
+                    textViewInputNumbers.setText(textViewInputNumbers.getText() + "(");
+                    done = true;
+                    openParenthesis++;
+                    dotUsed = false;
+                    break;
+                case IS_OPEN_PARENTHESIS:
+                    textViewInputNumbers.setText(textViewInputNumbers.getText() + "(");
+                    done = true;
+                    openParenthesis++;
+                    dotUsed = false;
+                    break;
+                case IS_CLOSE_PARENTHESIS:
+                    textViewInputNumbers.setText(textViewInputNumbers.getText() + ")");
+                    done = true;
+                    openParenthesis--;
+                    dotUsed = false;
+                    break;
+            }
+        } else if (openParenthesis == 0 && operationLength > 0)
+        {
+            String lastInput = textViewInputNumbers.getText().charAt(operationLength - 1) + "";
+            if (defineLastCharacter(lastInput) == IS_OPERAND)
+            {
+                textViewInputNumbers.setText(textViewInputNumbers.getText() + "(");
+                done = true;
+                dotUsed = false;
+                openParenthesis++;
+            } else
+            {
+                textViewInputNumbers.setText(textViewInputNumbers.getText() + "x(");
+                done = true;
+                dotUsed = false;
+                openParenthesis++;
+            }
+        }
+        return done;
+    }
+
+    private boolean addOperand(String operand)
+    {
+        boolean done = false;
+        int operationLength = textViewInputNumbers.getText().length();
+        if (operationLength > 0)
+        {
+            String lastInput = textViewInputNumbers.getText().charAt(operationLength - 1) + "";
+
+            if ((lastInput.equals("+") || lastInput.equals("-") || lastInput.equals("*") || lastInput.equals("\u00F7") || lastInput.equals("%")))
+            {
+                Toast.makeText(getApplicationContext(), "Wrong format", Toast.LENGTH_LONG).show();
+            } else if (operand.equals("%") && defineLastCharacter(lastInput) == IS_NUMBER)
+            {
+                textViewInputNumbers.setText(textViewInputNumbers.getText() + operand);
+                dotUsed = false;
+                equalClicked = false;
+                lastExpression = "";
+                done = true;
+            } else if (!operand.equals("%"))
+            {
+                textViewInputNumbers.setText(textViewInputNumbers.getText() + operand);
+                dotUsed = false;
+                equalClicked = false;
+                lastExpression = "";
+                done = true;
+            }
+        } else
+        {
+            Toast.makeText(getApplicationContext(), "Wrong Format. Operand Without any numbers?", Toast.LENGTH_LONG).show();
+        }
+        return done;
+    }
