@@ -51,3 +51,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button buttonAddition;
     Button buttonEqual;
     Button buttonDot;
+TextView textViewInputNumbers;
+
+    ScriptEngine scriptEngine;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        scriptEngine = new ScriptEngineManager().getEngineByName("rhino");
+
+        initializeViewVariables();
+        setOnClickListeners();
+        setOnTouchListener();
+    }
+
+    private void initializeViewVariables()
+    {
+        buttonNumber0 = (Button) findViewById(R.id.button_zero);
+        buttonNumber1 = (Button) findViewById(R.id.button_one);
+        buttonNumber2 = (Button) findViewById(R.id.button_two);
+        buttonNumber3 = (Button) findViewById(R.id.button_three);
+        buttonNumber4 = (Button) findViewById(R.id.button_four);
+        buttonNumber5 = (Button) findViewById(R.id.button_five);
+        buttonNumber6 = (Button) findViewById(R.id.button_six);
+        buttonNumber7 = (Button) findViewById(R.id.button_seven);
+        buttonNumber8 = (Button) findViewById(R.id.button_eight);
+        buttonNumber9 = (Button) findViewById(R.id.button_nine);
+
+        buttonClear = (Button) findViewById(R.id.button_clear);
+        buttonParentheses = (Button) findViewById(R.id.button_parentheses);
+        buttonPercent = (Button) findViewById(R.id.button_percent);
+        buttonDivision = (Button) findViewById(R.id.button_division);
+        buttonMultiplication = (Button) findViewById(R.id.button_multiplication);
+        buttonSubtraction = (Button) findViewById(R.id.button_subtraction);
+        buttonAddition = (Button) findViewById(R.id.button_addition);
+        buttonEqual = (Button) findViewById(R.id.button_equal);
+        buttonDot = (Button) findViewById(R.id.button_dot);
+        textViewInputNumbers = (TextView) findViewById(R.id.textView_input_numbers);
+    }
