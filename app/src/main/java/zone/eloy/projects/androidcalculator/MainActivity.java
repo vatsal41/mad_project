@@ -379,3 +379,93 @@ private boolean addNumber(String number)
         }
         return done;
     }
+ private void calculate(String input)
+    {
+        String result = "";
+        try
+        {
+            String temp = input;
+            if (equalClicked)
+            {
+                temp = input + lastExpression;
+            } else
+            {
+                saveLastExpression(input);
+            }
+            result = scriptEngine.eval(temp.replaceAll("%", "/100").replaceAll("x", "*").replaceAll("[^\\x00-\\x7F]", "/")).toString();
+            BigDecimal decimal = new BigDecimal(result);
+            result = decimal.setScale(8, BigDecimal.ROUND_HALF_UP).toPlainString();
+            equalClicked = true;
+
+        } catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(), "Wrong Format", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (result.equals("Infinity"))
+        {
+            Toast.makeText(getApplicationContext(), "Division by zero is not allowed", Toast.LENGTH_SHORT).show();
+            textViewInputNumbers.setText(input);
+
+        } else if (result.contains("."))
+        {
+            result = result.replaceAll("\\.?0*$", "");
+            textViewInputNumbers.setText(result);
+        }
+    }
+
+    private void saveLastExpression(String input)
+    {
+        String lastOfExpression = input.charAt(input.length() - 1) + "";
+        if (input.length() > 1)
+        {
+            if (lastOfExpression.equals(")"))
+            {
+                lastExpression = ")";
+                int numberOfCloseParenthesis = 1;
+
+                for (int i = input.length() - 2; i >= 0; i--)
+                {
+                    if (numberOfCloseParenthesis > 0)
+                    {
+                        String last = input.charAt(i) + "";
+                        if (last.equals(")"))
+                        {
+                            numberOfCloseParenthesis++;
+                        } else if (last.equals("("))
+                        {
+                            numberOfCloseParenthesis--;
+                        }
+                        lastExpression = last + lastExpression;
+                    } else if (defineLastCharacter(input.charAt(i) + "") == IS_OPERAND)
+                    {
+                        lastExpression = input.charAt(i) + lastExpression;
+                        break;
+                    } else
+                    {
+                        lastExpression = "";
+                    }
+                }
+            } else if (defineLastCharacter(lastOfExpression + "") == IS_NUMBER)
+            {
+                lastExpression = lastOfExpression;
+                for (int i = input.length() - 2; i >= 0; i--)
+                {
+                    String last = input.charAt(i) + "";
+                    if (defineLastCharacter(last) == IS_NUMBER || defineLastCharacter(last) == IS_DOT)
+                    {
+                        lastExpression = last + lastExpression;
+                    } else if (defineLastCharacter(last) == IS_OPERAND)
+                    {
+                        lastExpression = last + lastExpression;
+                        break;
+                    }
+                    if (i == 0)
+                    {
+                        lastExpression = "";
+                    }
+                }
+            }
+        }
+    }
