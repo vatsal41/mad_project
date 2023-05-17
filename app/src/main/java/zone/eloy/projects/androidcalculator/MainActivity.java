@@ -207,3 +207,48 @@ private void setOnClickListeners()
         }
 
     }
+@Override
+    public boolean onTouch(View view, MotionEvent motionEvent)
+    {
+        switch (motionEvent.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+            {
+                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                view.invalidate();
+                break;
+            }
+            case MotionEvent.ACTION_UP:
+            {
+                view.getBackground().clearColorFilter();
+                view.invalidate();
+                break;
+            }
+        }
+        return false;
+    }
+
+    private boolean addDot()
+    {
+        boolean done = false;
+
+        if (textViewInputNumbers.getText().length() == 0)
+        {
+            textViewInputNumbers.setText("0.");
+            dotUsed = true;
+            done = true;
+        } else if (dotUsed == true)
+        {
+        } else if (defineLastCharacter(textViewInputNumbers.getText().charAt(textViewInputNumbers.getText().length() - 1) + "") == IS_OPERAND)
+        {
+            textViewInputNumbers.setText(textViewInputNumbers.getText() + "0.");
+            done = true;
+            dotUsed = true;
+        } else if (defineLastCharacter(textViewInputNumbers.getText().charAt(textViewInputNumbers.getText().length() - 1) + "") == IS_NUMBER)
+        {
+            textViewInputNumbers.setText(textViewInputNumbers.getText() + ".");
+            done = true;
+            dotUsed = true;
+        }
+        return done;
+    }
