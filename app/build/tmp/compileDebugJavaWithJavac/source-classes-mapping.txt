@@ -1,0 +1,4 @@
+zone/eloy/projects/androidcalculator/BuildConfig.java
+ zone.eloy.projects.androidcalculator.BuildConfig
+zone/eloy/projects/androidcalculator/MainActivity.java
+ zone.eloy.projects.androidcalculator.MainActivity
